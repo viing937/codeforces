@@ -10,13 +10,15 @@ for link in bs.find_all('a'):
     url = link.get('href')
     if re.match(r'.*sina.*[0-9\-]+/[0-9]+\.shtml',str(url)):
         urls.append(url)
-
 for url in urls:
     try:
         r = requests.get(url)
         text = r.content.decode('gbk','ignore')
         bs = BeautifulSoup(text)
-        title = bs.find_all('h1')[-1].contents[-1]
-        print(title)
+        body = bs.find(id='artibody').find_all('p')
+        title = bs.find(id='artibodyTitle').text
+        with open('tmp/'+title.strip(),'w') as f:
+            for ln in body:
+                f.write(ln.text+'\n')
     except Exception:
         print(url)
