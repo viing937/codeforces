@@ -1,6 +1,10 @@
-n, m = File.new("input.txt", "r").gets.split.collect{|i| i.to_i}
+file = File.new("input.txt", "r")
+n, m = file.gets.split.collect{|i| i.to_i}
+file.close
+file = File.new("output.txt", "w")
 if n >= m
-    File.new("output.txt", "w").puts (['B','G']*m+['B']*(n-m)).join
+    file.puts (['B','G']*m+['B']*(n-m)).join
 else
-    File.new("output.txt", "w").puts (['G','B']*n+['G']*(m-n)).join
+    file.puts (['G','B']*n+['G']*(m-n)).join
 end
+file.close
