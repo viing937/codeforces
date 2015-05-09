@@ -10,11 +10,17 @@ function main()
     for ( i in pass )
     {
         if ( /[A-Z]/.test(pass[i]) )
+        {
             flag1 = false;
+        }
         if ( /[a-z]/.test(pass[i]) )
+        {
             flag2 = false;
+        }
         if ( /[0-9]/.test(pass[i]) )
+        {
             flag3 = false;
+        }
     }
     if ( flag1 || flag2 || flag3 )
     {
