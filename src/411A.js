@@ -6,7 +6,9 @@ function main()
         print("Too weak");
         return;
     }
-    var flag1 = true, flag2 = true, flag3 = true;
+    var flag1 = true,
+        flag2 = true,
+        flag3 = true;
     for ( i in pass )
     {
         if ( /[A-Z]/.test(pass[i]) )

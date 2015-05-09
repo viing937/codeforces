@@ -1,8 +1,8 @@
 function main()
 {
-    var n = parseInt(readline());
-    var up = 1<<30;
-    var low = -up;
+    var n = parseInt(readline()),
+        up = 1<<30;
+        low = -up;
     while ( n-- )
     {
         var tmp = readline().split(" ");
