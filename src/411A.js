@@ -1,31 +1,24 @@
-function main()
-{
+function main(){
     var pass = readline();
-    if ( pass.length < 5 )
-    {
+    if ( pass.length < 5 ){
         print("Too weak");
         return;
     }
     var flag1 = true,
         flag2 = true,
         flag3 = true;
-    for ( i in pass )
-    {
-        if ( /[A-Z]/.test(pass[i]) )
-        {
+    for ( i in pass ){
+        if ( /[A-Z]/.test(pass[i]) ){
             flag1 = false;
         }
-        if ( /[a-z]/.test(pass[i]) )
-        {
+        if ( /[a-z]/.test(pass[i]) ){
             flag2 = false;
         }
-        if ( /[0-9]/.test(pass[i]) )
-        {
+        if ( /[0-9]/.test(pass[i]) ){
             flag3 = false;
         }
     }
-    if ( flag1 || flag2 || flag3 )
-    {
+    if ( flag1 || flag2 || flag3 ){
         print("Too weak");
         return;
     }
