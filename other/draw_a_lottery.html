@@ -1,0 +1,29 @@
+<html>
+<head>
+    <title>draw a lottery</title>
+    <style type="text/css">
+        div { padding: 100px 0 0 0; width: 100%; height: 100%; text-align: center; font-size: 2000% }
+        body { overflow: hidden }
+    </style>
+    <script type="text/javascript">
+        var range = 100,
+            loop = false,
+            isrunning;
+        function draw(){
+            if ( !loop ){
+                isrunning = setInterval(getrandom,15);
+            }
+            else{
+                clearInterval(isrunning);
+            }
+            loop = !loop;
+        }
+        function getrandom(){
+            document.getElementById("luckdog").innerHTML = Math.floor(Math.random()*range);
+        }
+    </script>
+</head>
+<body>
+    <div id="luckdog" onclick="draw()">0</div>
+</body>
+</html>
