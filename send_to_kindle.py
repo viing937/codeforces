@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-from email.mime.multipart import MIMEMultipart
-from email.mime.base import MIMEBase
-from email import encoders
 import os
 import smtplib
 import socks
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email import encoders
+from argparse import ArgumentParser
 
-def load():
+def load_config():
     config = {}
     with open(os.path.expanduser("~/.send_to_kindle"), "r") as f:
         for line in f.readlines():
@@ -14,14 +15,14 @@ def load():
             config[line[0].strip(" ")] = line[1].strip(" ")
     return config
 
-def send(config, file_name):
+def send_book(config, file_name):
     server = smtplib.SMTP_SSL(config["server"], int(config["port"]))
     server.login(config["sender"], config["password"])
 
-    body = MIMEMultipart()
-    body["From"] = config["sender"]
-    body["To"] = config["target"]
-    body["Subject"] = os.path.basename(file_name)
+    outer = MIMEMultipart()
+    outer["From"] = config["sender"]
+    outer["To"] = config["target"]
+    outer["Subject"] = os.path.basename(file_name)
 
     contype = "application/octet-stream"
     maintype, subtype = contype.split("/", 1)
@@ -30,13 +31,13 @@ def send(config, file_name):
         file_msg.set_payload(f.read())
     encoders.encode_base64(file_msg)
     file_msg.add_header('Content-Disposition', 'attachment', filename = os.path.basename(file_name))
-    body.attach(file_msg)
+    outer.attach(file_msg)
 
     try:
-        server.sendmail(config["sender"], config["target"], body.as_string())
-        print("File sent.")
+        server.sendmail(config["sender"], config["target"], outer.as_string())
+        print(os.path.basename(file_name), "sent")
     except:
-        print("Error sending File.")
+        print("Error sending", os.path.basename(file_name))
     server.quit()
 
 def setproxy(config):
@@ -45,10 +46,15 @@ def setproxy(config):
     return socks
 
 def main():
-    config = load()
+    config = load_config()
     if "proxy" in config.keys():
         socks = setproxy(config)
-    send(config, "README.md")
+
+    parser = ArgumentParser()
+    parser.add_argument("file_name")
+    args = parser.parse_args()
+
+    send_book(config, args.file_name)
 
 if __name__ == '__main__':
     main()
