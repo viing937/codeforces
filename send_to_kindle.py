@@ -16,9 +16,6 @@ def load_config():
     return config
 
 def send_book(config, file_name):
-    server = smtplib.SMTP_SSL(config["server"], int(config["port"]))
-    server.login(config["sender"], config["password"])
-
     outer = MIMEMultipart()
     outer["From"] = config["sender"]
     outer["To"] = config["target"]
@@ -27,13 +24,15 @@ def send_book(config, file_name):
     contype = "application/octet-stream"
     maintype, subtype = contype.split("/", 1)
     with open(file_name, 'rb') as f:
-        file_msg = MIMEBase(maintype, subtype)
-        file_msg.set_payload(f.read())
-    encoders.encode_base64(file_msg)
-    file_msg.add_header('Content-Disposition', 'attachment', filename = os.path.basename(file_name))
-    outer.attach(file_msg)
+        attachment = MIMEBase(maintype, subtype)
+        attachment.set_payload(f.read())
+    encoders.encode_base64(attachment)
+    attachment.add_header('Content-Disposition', 'attachment', filename = os.path.basename(file_name))
+    outer.attach(attachment)
 
     try:
+        server = smtplib.SMTP_SSL(config["server"], int(config["port"]))
+        server.login(config["sender"], config["password"])
         server.sendmail(config["sender"], config["target"], outer.as_string())
         print("Send", os.path.basename(file_name), "successfully")
     except:
