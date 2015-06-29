@@ -35,7 +35,7 @@ def send_book(config, file_name):
 
     try:
         server.sendmail(config["sender"], config["target"], outer.as_string())
-        print(os.path.basename(file_name), "sent")
+        print("Send", os.path.basename(file_name), "successfully")
     except:
         print("Error sending", os.path.basename(file_name))
     server.quit()
