@@ -7,11 +7,11 @@ Send books to kindle via email.
 Create a config file ~/.send_to_kindle.
 Example:
 
-    server = smtp.qq.com
+    server = smtp.gmail.com
     port = 465
-    sender = email_address
-    password = login_password
-    target = kindle@kindle.com
+    sender = viing937@gmail.com
+    password = <censored>
+    target = viing937@kindle.com
     proxy = 127.0.0.1
     proxy_port = 1080
 
