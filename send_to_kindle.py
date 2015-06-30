@@ -41,7 +41,7 @@ def send_book(config, file_name):
         print("Error sending", os.path.basename(file_name))
     server.quit()
 
-def setproxy(config):
+def set_proxy(config):
     socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, config["proxy"], int(config["proxy_port"]))
     socks.wrapmodule(smtplib)
     return socks
@@ -49,7 +49,7 @@ def setproxy(config):
 def main():
     config = load_config()
     if "proxy" in config.keys():
-        socks = setproxy(config)
+        socks = set_proxy(config)
 
     parser = ArgumentParser()
     parser.add_argument("file_name")
