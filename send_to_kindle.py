@@ -15,20 +15,22 @@ def load_config():
             config[line[0].strip(" ")] = line[1].strip(" ")
     return config
 
+def get_attachment(file_name):
+    contype = "application/octet-stream"
+    maintype, subtype = contype.split("/", 1)
+    with open(file_name, "rb") as f:
+        attachment = MIMEBase(maintype, subtype)
+        attachment.set_payload(f.read())
+    encoders.encode_base64(attachment)
+    attachment.add_header("Content-Disposition", "attachment", filename = os.path.basename(file_name))
+
 def send_book(config, file_name):
     outer = MIMEMultipart()
     outer["From"] = config["sender"]
     outer["To"] = config["target"]
     outer["Subject"] = os.path.basename(file_name)
 
-    contype = "application/octet-stream"
-    maintype, subtype = contype.split("/", 1)
-    with open(file_name, 'rb') as f:
-        attachment = MIMEBase(maintype, subtype)
-        attachment.set_payload(f.read())
-    encoders.encode_base64(attachment)
-    attachment.add_header('Content-Disposition', 'attachment', filename = os.path.basename(file_name))
-    outer.attach(attachment)
+    outer.attach(get_attachment(file_name))
 
     try:
         server = smtplib.SMTP_SSL(config["server"], int(config["port"]))
