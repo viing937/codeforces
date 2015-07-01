@@ -9,8 +9,9 @@ def get_url(urls, bs):
         if len(urls) > 100:
             break
         url = link.get('href')
-        if re.match(r'^/shop/[0-9]*$', str(url)):
-            urls.add(url)
+        match = re.search(r'^/shop/[0-9]*$', str(url))
+        if match:
+            urls.add(match.group())
 
 def get_info(bs):
     try:
@@ -23,7 +24,7 @@ def get_info(bs):
 
 def main():
     domain = 'http://www.dianping.com'
-    urls = set(['/shop/1721578'])
+    urls = set(['/shop/1721578', '/shop/14155301', ])
     while len(urls) > 0:
         r = requests.get(domain+urls.pop(), headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101 Firefox/38.0'})
         bs = BeautifulSoup(r.text)
