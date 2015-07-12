@@ -48,7 +48,7 @@ def main():
         bs = BeautifulSoup(r.text)
         get_url(urls, bs)
         get_info(bs, url)
-        time.sleep(5)
+        time.sleep(3)
 
 if __name__ == '__main__':
     main()
