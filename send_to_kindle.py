@@ -23,6 +23,7 @@ def get_attachment(file_name):
         attachment.set_payload(f.read())
     encoders.encode_base64(attachment)
     attachment.add_header("Content-Disposition", "attachment", filename = os.path.basename(file_name))
+    return attachment
 
 def send_book(config, file_name):
     outer = MIMEMultipart()
