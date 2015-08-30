@@ -22,11 +22,10 @@ int main()
         sum += a[i];
         if ( (i+1 < n && sum/(i+1) >= a[i+1]) || i+1 == n )
         {
-            int t = sum/(i+1);
             if ( sum%(i+1) < 2 )
-                cout << t+1-a[0] << endl;
+                cout << sum/(i+1)+1-a[0] << endl;
             else
-                cout << t+2-a[0] << endl;
+                cout << sum/(i+1)+2-a[0] << endl;
             break;
         }
     }
