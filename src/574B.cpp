@@ -18,12 +18,10 @@ int main()
     }
     int result = 0x7fffffff;
     for ( int i = 1; i <= n; ++i  )
-    {
         for ( auto a = graph[i].begin(); a != graph[i].end(); ++a )
             for ( auto b = next(a, 1); b != graph[i].end(); ++b )
                 if ( graph[*a].find(*b) != graph[*a].end() )
                     result = min(result, (int)(graph[i].size()+graph[*a].size()+graph[*b].size()-6));
-    }
     if ( result != 0x7fffffff )
         cout << result << endl;
     else
