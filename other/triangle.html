@@ -30,7 +30,7 @@
             miny = Math.min(Math.min(y1, y2), y3),
             maxy = Math.max(Math.max(y1, y2), y3);
         if ( maxx-minx > 300 || maxy-miny > 130 ){
-            alert("Too large");
+            ctx.fillText("Too Large to draw", 100, 75);
             return;
         }
 
