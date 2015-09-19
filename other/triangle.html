@@ -16,6 +16,38 @@
         }
         return get_par;
     }
+    function draw(a, b, c){
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+
+        var x1 = 0, y1 = 0;
+        var x2 = c, y2 = 0;
+        var cosA = (b*b+c*c-a*a)/2/b/c;
+        var x3 = x1+b*cosA, y3 = Math.sqrt(b*b-x3*x3);
+
+        var minx = Math.min(Math.min(x1, x2), x3),
+            maxx = Math.max(Math.max(x1, x2), x3),
+            miny = Math.min(Math.min(y1, y2), y3),
+            maxy = Math.max(Math.max(y1, y2), y3);
+        if ( maxx-minx > 300 || maxy-miny > 130 ){
+            alert("Too large");
+            return;
+        }
+
+        var dx = (300-minx-maxx)/2, dy = (150-miny-maxy)/2;
+        x1 = x1+dx, y1 = y1+dy;
+        x2 = x2+dx, y2 = y2+dy;
+        x3 = x3+dx, y3 = y3+dy;
+
+        var path=new Path2D();
+        path.moveTo(x1, y1);
+        path.lineTo(x2, y2);
+        path.lineTo(x3, y3);
+        ctx.fill(path);
+        ctx.fillText("a", (x2+x3)/2+5, (y2+y3)/2+5);
+        ctx.fillText("b", (x1+x3)/2-5, (y1+y3)/2+5);
+        ctx.fillText("c", (x1+x2)/2, (y1+y2)/2-5);
+    }
     window.onload = function(){
         var a = getPar("a"), b = getPar("b"), c = getPar("c");
         var form = document.getElementById("triangle");
@@ -38,6 +70,7 @@
             var s = (a+b+c)/2;
             var area = Math.sqrt(s*(s-a)*(s-b)*(s-c));
             result.innerHTML = "面积 = " + area.toFixed(2);
+            draw(a, b, c);
         }
     }
 </script>
@@ -46,6 +79,7 @@
         margin: 0px;
         padding: 0px;
         height: 500px;
+        width: 100%;
     }
     .leftside{
         background: #E6E6E6;
@@ -55,7 +89,6 @@
     }
     .rightside{
         height: 100%;
-        width: 100%;
     } 
 </style>
 </head>
@@ -75,7 +108,7 @@
     </div>
 </div>
 <div class="rightside">
-    <canvas id="picture" style="height: 100%; width: 500px; border: 1px solid #d3d3d3">
+    <canvas id="canvas" style="height: 100%; border: 1px solid #d3d3d3">
     Your browser does not support the HTML5 canvas tag.</canvas>
 </div>
 </body>
