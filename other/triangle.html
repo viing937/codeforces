@@ -17,8 +17,8 @@
         return get_par;
     }
     function draw(a, b, c){
-        var canvas = document.getElementById('canvas');
-        var ctx = canvas.getContext('2d');
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
 
         var x1 = 0, y1 = 0;
         var x2 = c, y2 = 0;
@@ -39,14 +39,18 @@
         x2 = x2+dx, y2 = y2+dy;
         x3 = x3+dx, y3 = y3+dy;
 
-        var path=new Path2D();
-        path.moveTo(x1, y1);
-        path.lineTo(x2, y2);
-        path.lineTo(x3, y3);
-        ctx.fill(path);
-        ctx.fillText("a", (x2+x3)/2, (y2+y3)/2+5);
-        ctx.fillText("b", (x1+x3)/2-8, (y1+y3)/2+5);
-        ctx.fillText("c", (x1+x2)/2, (y1+y2)/2-3);
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.lineTo(x3, y3);
+        ctx.closePath();
+        ctx.stroke();
+
+        if ( maxx-minx > 15 || maxy-miny > 15 ){
+            ctx.fillText("a", (x2+x3)/2, (y2+y3)/2);
+            ctx.fillText("b", (x1+x3)/2, (y1+y3)/2);
+            ctx.fillText("c", (x1+x2)/2, (y1+y2)/2);
+        }
     }
     window.onload = function(){
         var a = getPar("a"), b = getPar("b"), c = getPar("c");
