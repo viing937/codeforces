@@ -10,9 +10,14 @@
             return false;   
         }   
         var get_par = local_url.slice(par.length + get + 1);    
-        var nextPar = get_par.indexOf("&");
-        if(nextPar !== -1){
-            get_par = get_par.slice(0, nextPar);
+        var next_par;
+        next_par = get_par.indexOf("&");
+        if ( next_par !== -1 ){
+            return get_par.slice(0, next_par);
+        }
+        next_par = get_par.indexOf("/");
+        if ( next_par !== -1 ){
+            return get_par.slice(0, next_par);
         }
         return get_par;
     }
