@@ -3,23 +3,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <script>
-    function getPar(par){
-        var local_url = document.location.href; 
-        var get = local_url.indexOf(par+"=");
-        if ( get === -1 ){
-            return false;   
-        }   
-        var get_par = local_url.slice(par.length + get + 1);    
-        var next_par;
-        next_par = get_par.indexOf("&");
-        if ( next_par !== -1 ){
-            return get_par.slice(0, next_par);
+    function get(par){
+        var query = window.location.search.substring(1);
+        while ( query[query.length-1] === "/" ){
+            query = query.slice(0, query.length-1);
         }
-        next_par = get_par.indexOf("/");
-        if ( next_par !== -1 ){
-            return get_par.slice(0, next_par);
+        var vars = query.split("&");
+        for ( var i=0; i< vars.length; ++i ){
+            var pair = vars[i].split("=");
+            if ( pair[0] === par ){return pair[1];}
         }
-        return get_par;
+        return false;
     }
     function draw(a, b, c){
         var canvas = document.getElementById("canvas");
@@ -64,7 +58,7 @@
         }
     }
     window.onload = function(){
-        var a = getPar("a"), b = getPar("b"), c = getPar("c");
+        var a = get("a"), b = get("b"), c = get("c");
         var form = document.getElementById("triangle");
             result = document.getElementById("result");
         form.a.value = a||"", form.b.value = b||"", form.c.value = c||"";
