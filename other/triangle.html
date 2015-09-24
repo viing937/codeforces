@@ -21,20 +21,18 @@
         var height = canvas.height,
             width = canvas.width;
 
+        var scale = (a+b+c)/3*2/Math.min(height, width);
+        var aa = a/scale, bb = b/scale, cc = c/scale;
+
         var x1 = 0, y1 = 0;
-        var x2 = c, y2 = 0;
-        var cosA = (b*b+c*c-a*a)/2/b/c;
-        var x3 = x1+b*cosA, y3 = Math.sqrt(b*b-x3*x3);
+        var x2 = cc, y2 = 0;
+        var cosA = (bb*bb+cc*cc-aa*aa)/2/bb/cc;
+        var x3 = x1+bb*cosA, y3 = Math.sqrt(bb*bb-x3*x3);
 
         var minx = Math.min(Math.min(x1, x2), x3),
             maxx = Math.max(Math.max(x1, x2), x3),
             miny = Math.min(Math.min(y1, y2), y3),
             maxy = Math.max(Math.max(y1, y2), y3);
-        if ( maxx-minx > width || maxy-miny > height ){
-            ctx.textAlign = "center";
-            ctx.fillText("Too Large to draw", width/2, height/2);
-            return;
-        }
 
         var dx = (width-minx-maxx)/2, dy = (height-miny-maxy)/2;
         x1 = x1+dx, y1 = y1+dy;
@@ -48,14 +46,12 @@
         ctx.closePath();
         ctx.stroke();
 
-        if ( maxx-minx > 30 || maxy-miny > 30 ){
-            ctx.textAlign = "start";
-            ctx.fillText("a="+a, (x2+x3)/2, (y2+y3)/2);
-            ctx.textAlign = "end";
-            ctx.fillText("b="+b, (x1+x3)/2, (y1+y3)/2);
-            ctx.textAlign = "center";
-            ctx.fillText("c="+c, (x1+x2)/2, (y1+y2)/2);
-        }
+        ctx.textAlign = "start";
+        ctx.fillText("a="+a, (x2+x3)/2, (y2+y3)/2);
+        ctx.textAlign = "end";
+        ctx.fillText("b="+b, (x1+x3)/2, (y1+y3)/2);
+        ctx.textAlign = "center";
+        ctx.fillText("c="+c, (x1+x2)/2, (y1+y2)/2);
     }
     window.onload = function(){
         var a = get("a"), b = get("b"), c = get("c");
