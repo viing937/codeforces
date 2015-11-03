@@ -139,20 +139,21 @@ int draw_hands(SDL_Renderer *renderer, struct tm *timer)
 
 void update(SDL_Renderer *renderer)
 {
-    SDL_RenderClear(renderer);
     time_t rawtime = time(NULL);
     struct tm *timer = localtime(&rawtime);
 
-    draw_circle(renderer, SIZE/2, SIZE/2, SIZE/2*0.95, 255, 255, 255, 255);
+    int center = SIZE/2, clock_size = center*0.95;
+    draw_circle(renderer, center, center, clock_size, 255, 255, 255, 255);
     for ( int i = 0; i < 12; ++i )
     {
         double deg = (double)i/12*M_PI*2;
-        draw_smooth_line(renderer, SIZE/2+sin(deg)*((SIZE/2)*0.95-10), SIZE/2-cos(deg)*((SIZE/2)*0.95-10),
-                                   SIZE/2+sin(deg)*(SIZE/2)*0.95, SIZE/2-cos(deg)*((SIZE/2)*0.95),
-                                   0, 0, 0, 255);
+        draw_smooth_line(renderer,
+                         center+sin(deg)*(clock_size-8), center-cos(deg)*(clock_size-8),
+                         center+sin(deg)*clock_size, center-cos(deg)*clock_size,
+                         0, 0, 0, 255);
     }
     draw_hands(renderer, timer);
-    draw_circle(renderer, SIZE/2, SIZE/2, SIZE/2*0.03, 0, 0, 0, 255);
+    draw_circle(renderer, center, center, clock_size*0.03, 0, 0, 0, 255);
     
     SDL_RenderPresent(renderer);
     return;
