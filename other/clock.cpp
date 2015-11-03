@@ -124,12 +124,15 @@ int draw_smooth_line(SDL_Renderer *renderer, int x1, int y1, int x2, int y2, int
     return result;
 }
 
-int draw_hands(SDL_Renderer *renderer, struct tm *timer)
+int draw_hands(SDL_Renderer *renderer, double rawtime)
 {
     int x = SIZE/2, y = SIZE/2;
-    double deg_sec = (double)(timer->tm_sec)/60*M_PI*2;
-    double deg_min = (double)(timer->tm_min)/60*M_PI*2;
-    double deg_hour = (double)(timer->tm_hour%12)/12*M_PI*2+deg_min/12;
+    time_t tmp_t = rawtime;
+    struct tm *timeinfo = localtime(&tmp_t);
+    rawtime -= tmp_t;
+    double deg_sec = (timeinfo->tm_sec+rawtime)/60*M_PI*2;
+    double deg_min = (double)(timeinfo->tm_min)/60*M_PI*2+deg_sec/12;
+    double deg_hour = (double)(timeinfo->tm_hour%12)/12*M_PI*2+deg_min/12;
 
     draw_smooth_line(renderer, x, y, x+sin(deg_sec)*SECOHAND, y-cos(deg_sec)*SECOHAND, 255, 0, 0, 255);
     draw_smooth_line(renderer, x, y, x+sin(deg_min)*MINUHAND, y-cos(deg_min)*MINUHAND, 0, 0, 0, 255);
@@ -137,11 +140,8 @@ int draw_hands(SDL_Renderer *renderer, struct tm *timer)
     return 0;
 }
 
-void update(SDL_Renderer *renderer)
+void update(SDL_Renderer *renderer, double rawtime)
 {
-    time_t rawtime = time(NULL);
-    struct tm *timer = localtime(&rawtime);
-
     int center = SIZE/2, clock_size = center*0.95;
     draw_circle(renderer, center, center, clock_size, 255, 255, 255, 255);
     for ( int i = 0; i < 12; ++i )
@@ -152,7 +152,7 @@ void update(SDL_Renderer *renderer)
                          center+sin(deg)*clock_size, center-cos(deg)*clock_size,
                          0, 0, 0, 255);
     }
-    draw_hands(renderer, timer);
+    draw_hands(renderer, rawtime);
     draw_circle(renderer, center, center, clock_size*0.03, 0, 0, 0, 255);
     
     SDL_RenderPresent(renderer);
@@ -172,6 +172,8 @@ int main(int argc, char *argv[])
 
     SDL_Event e;
     int quit = 0;
+    double rawtime = time(NULL);
+    clock_t t = clock();
     while ( !quit )
     {
         while( SDL_PollEvent(&e) != 0 )
@@ -179,8 +181,8 @@ int main(int argc, char *argv[])
             if ( e.type == SDL_QUIT )
                 quit = 1;
         }
-        update(renderer);
-        SDL_Delay(20);
+        update(renderer, rawtime+(double)(clock()-t)/CLOCKS_PER_SEC);
+        SDL_Delay(10);
     }
 
     SDL_DestroyWindow(window);
