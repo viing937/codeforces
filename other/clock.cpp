@@ -182,7 +182,7 @@ int main(int argc, char *argv[])
                 quit = 1;
         }
         update(renderer, rawtime+(double)(clock()-t)/CLOCKS_PER_SEC);
-        SDL_Delay(10);
+        SDL_Delay(20);
     }
 
     SDL_DestroyWindow(window);
