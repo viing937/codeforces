@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include <iostream>
 #include <cstdio>
 #include <ctime>
 #include <algorithm>
@@ -131,7 +132,7 @@ int draw_hands(SDL_Renderer *renderer, double rawtime)
     struct tm *timeinfo = localtime(&tmp_t);
     rawtime -= tmp_t;
     double deg_sec = (timeinfo->tm_sec+rawtime)/60*M_PI*2;
-    double deg_min = (double)(timeinfo->tm_min)/60*M_PI*2+deg_sec/12;
+    double deg_min = (double)(timeinfo->tm_min)/60*M_PI*2+deg_sec/60;
     double deg_hour = (double)(timeinfo->tm_hour%12)/12*M_PI*2+deg_min/12;
 
     draw_smooth_line(renderer, x, y, x+sin(deg_sec)*SECOHAND, y-cos(deg_sec)*SECOHAND, 255, 0, 0, 255);
@@ -176,10 +177,26 @@ int main(int argc, char *argv[])
     clock_t t = clock();
     while ( !quit )
     {
-        while( SDL_PollEvent(&e) != 0 )
+        while( SDL_PollEvent(&e) )
         {
-            if ( e.type == SDL_QUIT )
-                quit = 1;
+            switch( e.type )
+            {
+                case SDL_KEYDOWN:
+                {
+                    string keyname = SDL_GetKeyName(e.key.keysym.sym);
+                    if ( keyname == "Right" )
+                        rawtime += 3;
+                    else if ( keyname == "Left" )
+                        rawtime -= 3;
+                    else if ( keyname == "Up" )
+                        rawtime += 90;
+                    else if ( keyname == "Down" )
+                        rawtime -= 90;
+                    break;
+                }
+                case SDL_QUIT:
+                    quit = 1; break;
+            }
         }
         update(renderer, rawtime+(double)(clock()-t)/CLOCKS_PER_SEC);
         SDL_Delay(20);
