@@ -13,11 +13,10 @@ using namespace std;
 
 int draw_point_RGBA(SDL_Renderer *renderer, int x, int y, int r, int g, int b, int a)
 {
-    int result = 0;
-    result |= SDL_SetRenderDrawBlendMode(renderer, (a == 255) ? SDL_BLENDMODE_NONE : SDL_BLENDMODE_BLEND);
-    result |= SDL_SetRenderDrawColor(renderer, r, g, b, a);
-    result |= SDL_RenderDrawPoint(renderer, x, y);
-    return result;
+    SDL_SetRenderDrawBlendMode(renderer, (a == 255) ? SDL_BLENDMODE_NONE : SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(renderer, r, g, b, a);
+    SDL_RenderDrawPoint(renderer, x, y);
+    return 0;
 }
 
 int draw_point_RGBA_weight(SDL_Renderer *renderer, int x, int y, int r, int g, int b, int a, int weight)
@@ -75,10 +74,9 @@ int draw_smooth_line(SDL_Renderer *renderer, int x1, int y1, int x2, int y2, int
         return SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
     }
 
-    int result = 0;
     Uint32 erracc = 0, intshift = 32 - AAbits;
 
-    result |= draw_point_RGBA(renderer, x1, y1, r, g, b, a);
+    draw_point_RGBA(renderer, x1, y1, r, g, b, a);
     if ( dy > dx )
     {
         Uint32 erradj = ((dx<<16) / dy) << 16;
@@ -95,8 +93,8 @@ int draw_smooth_line(SDL_Renderer *renderer, int x1, int y1, int x2, int y2, int
             y1 += 1;
 
             Uint32 wgt = (erracc>>intshift) & 255;
-            result |= draw_point_RGBA_weight(renderer, x1, y1, r, g, b, a, 255-wgt);
-            result |= draw_point_RGBA_weight(renderer, x1pxdir, y1, r, g, b, a, wgt);
+            draw_point_RGBA_weight(renderer, x1, y1, r, g, b, a, 255-wgt);
+            draw_point_RGBA_weight(renderer, x1pxdir, y1, r, g, b, a, wgt);
         }
     }
     else
@@ -115,14 +113,14 @@ int draw_smooth_line(SDL_Renderer *renderer, int x1, int y1, int x2, int y2, int
             x1 += xdir;
 
             Uint32 wgt = (erracc>>intshift) & 255;
-            result |= draw_point_RGBA_weight(renderer, x1, y1, r, g, b, a, 255-wgt);
-            result |= draw_point_RGBA_weight(renderer, x1, y1pxdir, r, g, b, a, wgt);
+            draw_point_RGBA_weight(renderer, x1, y1, r, g, b, a, 255-wgt);
+            draw_point_RGBA_weight(renderer, x1, y1pxdir, r, g, b, a, wgt);
         }
     }
 
-    result |= draw_point_RGBA(renderer, x2, y2, r, g, b, a);
+    draw_point_RGBA(renderer, x2, y2, r, g, b, a);
 
-    return result;
+    return 0;
 }
 
 int draw_hands(SDL_Renderer *renderer, double rawtime)
@@ -149,7 +147,7 @@ void update(SDL_Renderer *renderer, double rawtime)
     {
         double deg = (double)i/12*M_PI*2;
         draw_smooth_line(renderer,
-                         center+sin(deg)*(clock_size-15), center-cos(deg)*(clock_size-15),
+                         center+sin(deg)*(clock_size-12), center-cos(deg)*(clock_size-12),
                          center+sin(deg)*clock_size, center-cos(deg)*clock_size,
                          0, 0, 0, 255);
     }
