@@ -185,13 +185,13 @@ int main(int argc, char *argv[])
                 {
                     string keyname = SDL_GetKeyName(e.key.keysym.sym);
                     if ( keyname == "Right" )
-                        rawtime += 3;
+                        rawtime += 2;
                     else if ( keyname == "Left" )
-                        rawtime -= 3;
+                        rawtime -= 2;
                     else if ( keyname == "Up" )
-                        rawtime += 90;
+                        rawtime += 45;
                     else if ( keyname == "Down" )
-                        rawtime -= 90;
+                        rawtime -= 45;
                     break;
                 }
                 case SDL_QUIT:
