@@ -149,7 +149,7 @@ void update(SDL_Renderer *renderer, double rawtime)
     {
         double deg = (double)i/12*M_PI*2;
         draw_smooth_line(renderer,
-                         center+sin(deg)*(clock_size-8), center-cos(deg)*(clock_size-8),
+                         center+sin(deg)*(clock_size-15), center-cos(deg)*(clock_size-15),
                          center+sin(deg)*clock_size, center-cos(deg)*clock_size,
                          0, 0, 0, 255);
     }
