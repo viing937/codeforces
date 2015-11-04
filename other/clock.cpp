@@ -75,17 +75,17 @@ int draw_smooth_line(SDL_Renderer *renderer, int x1, int y1, int x2, int y2, int
         return SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
     }
 
-    int result = 0, erracc = 0;
-    int intshift = 32 - AAbits;
+    int result = 0;
+    Uint32 erracc = 0, intshift = 32 - AAbits;
 
     result |= draw_point_RGBA(renderer, x1, y1, r, g, b, a);
     if ( dy > dx )
     {
-        int erradj = ((dx<<16) / dy) << 16;
+        Uint32 erradj = ((dx<<16) / dy) << 16;
         int x1pxdir = x1 + xdir;
         while ( --dy )
         {
-            int erracctmp = erracc;
+            Uint32 erracctmp = erracc;
             erracc += erradj;
             if ( erracc <= erracctmp )
             {
@@ -94,18 +94,18 @@ int draw_smooth_line(SDL_Renderer *renderer, int x1, int y1, int x2, int y2, int
             }
             y1 += 1;
 
-            int wgt = (erracc>>intshift) & 255;
+            Uint32 wgt = (erracc>>intshift) & 255;
             result |= draw_point_RGBA_weight(renderer, x1, y1, r, g, b, a, 255-wgt);
             result |= draw_point_RGBA_weight(renderer, x1pxdir, y1, r, g, b, a, wgt);
         }
     }
     else
     {
-        int erradj = ((dy<<16) / dx) << 16;
+        Uint32 erradj = ((dy<<16) / dx) << 16;
         int y1pxdir = y1 + 1;
         while ( --dx )
         {
-            int erracctmp = erracc;
+            Uint32 erracctmp = erracc;
             erracc += erradj;
             if ( erracc <= erracctmp )
             {
@@ -114,7 +114,7 @@ int draw_smooth_line(SDL_Renderer *renderer, int x1, int y1, int x2, int y2, int
             }
             x1 += xdir;
 
-            int wgt = (erracc>>intshift) & 255;
+            Uint32 wgt = (erracc>>intshift) & 255;
             result |= draw_point_RGBA_weight(renderer, x1, y1, r, g, b, a, 255-wgt);
             result |= draw_point_RGBA_weight(renderer, x1, y1pxdir, r, g, b, a, wgt);
         }
@@ -135,9 +135,9 @@ int draw_hands(SDL_Renderer *renderer, double rawtime)
     double deg_min = (double)(timeinfo->tm_min)/60*M_PI*2+deg_sec/60;
     double deg_hour = (double)(timeinfo->tm_hour%12)/12*M_PI*2+deg_min/12;
 
-    draw_smooth_line(renderer, x, y, x+sin(deg_sec)*SECOHAND, y-cos(deg_sec)*SECOHAND, 255, 0, 0, 255);
-    draw_smooth_line(renderer, x, y, x+sin(deg_min)*MINUHAND, y-cos(deg_min)*MINUHAND, 0, 0, 0, 255);
-    draw_smooth_line(renderer, x, y, x+sin(deg_hour)*HOURHAND, y-cos(deg_hour)*HOURHAND, 0, 0, 0, 255);
+    draw_smooth_line(renderer, x, y, x+sin(deg_sec)*SECOHAND, y-cos(deg_sec)*SECOHAND, 255, 0, 0, 200);
+    draw_smooth_line(renderer, x, y, x+sin(deg_min)*MINUHAND, y-cos(deg_min)*MINUHAND, 0, 0, 0, 200);
+    draw_smooth_line(renderer, x, y, x+sin(deg_hour)*HOURHAND, y-cos(deg_hour)*HOURHAND, 0, 0, 0, 200);
     return 0;
 }
 
