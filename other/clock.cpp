@@ -135,9 +135,9 @@ int draw_hands(SDL_Renderer *renderer, double rawtime)
     double deg_min = (double)(timeinfo->tm_min)/60*M_PI*2+deg_sec/60;
     double deg_hour = (double)(timeinfo->tm_hour%12)/12*M_PI*2+deg_min/12;
 
-    draw_smooth_line(renderer, x, y, x+sin(deg_sec)*SECOHAND, y-cos(deg_sec)*SECOHAND, 255, 0, 0, 200);
-    draw_smooth_line(renderer, x, y, x+sin(deg_min)*MINUHAND, y-cos(deg_min)*MINUHAND, 0, 0, 0, 200);
-    draw_smooth_line(renderer, x, y, x+sin(deg_hour)*HOURHAND, y-cos(deg_hour)*HOURHAND, 0, 0, 0, 200);
+    draw_smooth_line(renderer, x, y, x+sin(deg_sec)*SECOHAND, y-cos(deg_sec)*SECOHAND, 255, 0, 0, 255);
+    draw_smooth_line(renderer, x, y, x+sin(deg_min)*MINUHAND, y-cos(deg_min)*MINUHAND, 0, 0, 0, 255);
+    draw_smooth_line(renderer, x, y, x+sin(deg_hour)*HOURHAND, y-cos(deg_hour)*HOURHAND, 0, 0, 0, 255);
     return 0;
 }
 
