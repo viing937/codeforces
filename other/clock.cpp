@@ -19,7 +19,7 @@ int draw_point_RGBA(SDL_Renderer *renderer, int x, int y, int r, int g, int b, i
     return 0;
 }
 
-int draw_point_RGBA_weight(SDL_Renderer *renderer, int x, int y, int r, int g, int b, int a, int weight)
+int draw_point_RGBA_weight(SDL_Renderer *renderer, int x, int y, int r, int g, int b, int a, Uint32 weight)
 {
     int ax = (a*weight)>>8;
     if ( ax > 255 )
@@ -143,13 +143,19 @@ void update(SDL_Renderer *renderer, double rawtime)
 {
     int center = SIZE/2, clock_size = center*0.95;
     draw_circle(renderer, center, center, clock_size, 255, 255, 255, 255);
-    for ( int i = 0; i < 12; ++i )
+    for ( int i = 0; i < 60; ++i )
     {
-        double deg = (double)i/12*M_PI*2;
-        draw_smooth_line(renderer,
-                         center+sin(deg)*(clock_size-12), center-cos(deg)*(clock_size-12),
-                         center+sin(deg)*clock_size, center-cos(deg)*clock_size,
-                         0, 0, 0, 255);
+        double deg = (double)i/60*M_PI*2;
+        if ( i%5 == 0 )
+            draw_smooth_line(renderer,
+                             center+sin(deg)*(clock_size-14), center-cos(deg)*(clock_size-14),
+                             center+sin(deg)*clock_size, center-cos(deg)*clock_size,
+                             0, 0, 0, 255);
+        else
+            draw_smooth_line(renderer,
+                             center+sin(deg)*(clock_size-6), center-cos(deg)*(clock_size-6),
+                             center+sin(deg)*clock_size, center-cos(deg)*clock_size,
+                             0, 0, 0, 255);
     }
     draw_hands(renderer, rawtime);
     draw_circle(renderer, center, center, clock_size*0.03, 0, 0, 0, 255);
