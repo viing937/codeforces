@@ -2,14 +2,14 @@
 #define MAXN 100005
 using namespace std;
 
-long long ft[MAXN][12];
+long long ft[MAXN+5][12];
 
 int lowbit(int x)
 {
     return x&-x;
 }
 
-void update(int i, int j, long long v)
+void add(int i, int j, long long v)
 {
     for ( ; i < MAXN; i += lowbit(i) )
         ft[i][j] += v;
@@ -31,9 +31,9 @@ int main()
     {
         int a;
         cin >> a;
-        update(a, 0, 1);
+        add(a, 0, 1);
         for ( int j = 1; j <= k; ++j )
-            update(a, j, sum(a-1, j-1));
+            add(a, j, sum(a-1, j-1));
     }
     cout << sum(MAXN, k) << endl;
     return 0;
