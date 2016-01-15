@@ -15,6 +15,20 @@ public:
     std::vector< std::vector< std::vector<int> > > nfa_trans;
     std::vector<int> acc;
 
+    /*
+     * 10,a,b,~
+     * void;void;1,7
+     * void;void;2,4
+     * 3;void;void
+     * void;void;6
+     * void;5;void
+     * void;void;6
+     * void;void;1,7
+     * 8;void;void
+     * void;9;void
+     * void;void;void
+     * 9
+     */
     NFA(const char *file)
     {
         std::ifstream in(file);
