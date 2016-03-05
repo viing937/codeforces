@@ -21,6 +21,7 @@ int main()
     }
 
     sort(op.begin(), op.end(), greater< pair<int, pair<int, int> > >());
+    op.push_back(make_pair(0, make_pair(m, op.back().second.second)));
     if ( op[0].second.second == 1 )
         sort(a.begin(), a.begin()+op[0].first, less<int>());
     else
@@ -29,7 +30,7 @@ int main()
     int last = 0, l = 0, r = op[0].first-1;
     bool rev = false;
     vector<int> tmp(a.begin(), a.begin()+op[0].first);
-    for ( int i = 1; i < m; ++i )
+    for ( int i = 1; i < (int)op.size(); ++i )
     {
         if ( op[i].second.first <= op[last].second.first )
             continue;
@@ -52,13 +53,6 @@ int main()
             last = i;
         }
     }
-
-    if ( !rev )
-        for ( int i = 0; i < op[last].first; ++i )
-            a[i] = tmp[l+i];
-    else
-        for ( int i = 0; i < op[last].first; ++i )
-            a[i] = tmp[r-i];
 
     for ( int i = 0; i < n; ++i )
     {
