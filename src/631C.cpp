@@ -32,7 +32,7 @@ int main()
     {
         if ( op[i].second.first <= op[last].second.first )
             continue;
-        else if ( op[i].second.second == op[last].second.second )
+        else
         {
             if ( cnt%2 == 1 )
             {
@@ -46,23 +46,8 @@ int main()
                     a[op[last].first-j-1] = tmp[r-j];
                 r -= op[last].first - op[i].first;
             }
-            last = i;
-        }
-        else
-        {
-            cnt += 1;
-            if ( cnt%2 == 0 )
-            {
-                for ( int j = 0; j < op[last].first-op[i].first; ++j )
-                    a[op[last].first-j-1] = tmp[l+j];
-                l += op[last].first - op[i].first;
-            }
-            else
-            {
-                for ( int j = 0; j < op[last].first-op[i].first; ++j )
-                    a[op[last].first-j-1] = tmp[r-j];
-                r -= op[last].first - op[i].first;
-            }
+            if ( op[i].second.second != op[last].second.second )
+                cnt += 1;
             last = i;
         }
     }
