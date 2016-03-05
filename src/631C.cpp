@@ -26,7 +26,8 @@ int main()
     else
         sort(a.begin(), a.begin()+op[0].first, greater<int>());
 
-    int last = 0, cnt = 0, l = 0, r = op[0].first-1;
+    int last = 0, l = 0, r = op[0].first-1;
+    bool rev = false;
     vector<int> tmp(a.begin(), a.begin()+op[0].first);
     for ( int i = 1; i < m; ++i )
     {
@@ -34,7 +35,7 @@ int main()
             continue;
         else
         {
-            if ( cnt%2 == 1 )
+            if ( rev )
             {
                 for ( int j = 0; j < op[last].first-op[i].first; ++j )
                     a[op[last].first-j-1] = tmp[l+j];
@@ -47,12 +48,12 @@ int main()
                 r -= op[last].first - op[i].first;
             }
             if ( op[i].second.second != op[last].second.second )
-                cnt += 1;
+                rev = !rev;
             last = i;
         }
     }
 
-    if ( cnt%2 == 0 )
+    if ( !rev )
         for ( int i = 0; i < op[last].first; ++i )
             a[i] = tmp[l+i];
     else
