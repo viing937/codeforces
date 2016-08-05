@@ -50,7 +50,6 @@ def set_proxy():
     return socks
 
 def main():
-    socks = set_proxy()
     try:
         socks = set_proxy()
         print('proxy:', PROXY + ':' + str(PROXY_PORT))
