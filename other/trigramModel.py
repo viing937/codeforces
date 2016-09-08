@@ -3,6 +3,7 @@ import random
 with open('text.txt') as f:
     words = [word for word in f.read().replace('\n', ' ').replace('.', ' . ')
                                       .replace(',', ' , ').replace('!', ' ! ')
+                                      .replace('?', ' ? ').replace('"', ' " ')
                                       .split(' ') if word != '']
 wt = {}
 for i in range(2, len(words)):
