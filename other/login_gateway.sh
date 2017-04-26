@@ -6,7 +6,9 @@ user=$1
 passwd=$2
 tm='RadioButton8' # 10 hours
 
-curl wg.suda.edu.cn --data "__VIEWSTATE=$VIEWSTATE&__EVENTVALIDATION=$EVENTVALIDATION&TextBox1=$user&TextBox2=$passwd&nw=RadioButton1&tm=$tm&Button1=登陆网关" 2>/dev/null \
+curl wg.suda.edu.cn --data-urlencode "__VIEWSTATE=$VIEWSTATE" \
+                    --data-urlencode "__EVENTVALIDATION=$EVENTVALIDATION" \
+                    --data "TextBox1=$user&TextBox2=$passwd&nw=RadioButton1&tm=$tm&Button1=登陆网关" 2>/dev/null \
                     | grep $user \
                     | tr -d ' \t' \
-                    | sed 's/<\(.*\)>//g'
+                    | sed 's/<[^>]*>//g'
