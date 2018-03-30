@@ -1,0 +1,5 @@
+n = int(input())
+a = list(map(int, input().split()))
+B = sum(filter(lambda x: x > 0, a))
+C = sum(filter(lambda x: x < 0, a))
+print(B-C)
