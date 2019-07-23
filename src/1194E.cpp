@@ -18,7 +18,7 @@ void add(vector<int> &c, int x, int y)
 int get(vector<int> &c, int x)
 {
     int rls = 0;
-    for (int i = x; i > 0; i = (i & (i + 1)) - 1)
+    for (int i = x; i >= 0; i = (i & (i + 1)) - 1)
     {
         rls += c[i];
     }
