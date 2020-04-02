@@ -1,4 +1,11 @@
+# virtual env
+.env
+
+# c++
 a.out
 a.out.dSYM
-.vscode
-.env
+/.vscode
+
+# rust
+/target
+/Cargo.lock
