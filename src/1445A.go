@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"sort"
 )
 
 func main() {
@@ -29,8 +28,6 @@ func main() {
 
 func check(a, b []int, x int) bool {
 	n := len(a)
-	a = sort.IntSlice(a)
-	b = sort.IntSlice(b)
 	for i := 0; i < n; i++ {
 		j := n - i - 1
 		if a[i]+b[j] > x {
