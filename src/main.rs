@@ -1,8 +1,6 @@
-use std::io;
-use std::io::BufRead;
-use std::io::BufReader;
-use std::io::BufWriter;
-use std::io::Write;
+use std::io::{self, BufRead};
+
+use io::{BufReader, BufWriter, Write};
 
 fn main() {
     let mut stdin = BufReader::new(io::stdin());
