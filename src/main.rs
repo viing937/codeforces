@@ -1,13 +1,33 @@
-use std::io::{self, BufRead};
-
-use io::{BufReader, BufWriter, Write};
+use std::{
+    fmt::Debug,
+    io::{self, BufRead, BufReader, BufWriter, Write},
+    str::FromStr,
+};
 
 fn main() {
     let mut stdin = BufReader::new(io::stdin());
     let mut stdout = BufWriter::new(io::stdout());
-    let mut buffer = String::new();
 
-    stdin.read_line(&mut buffer).unwrap();
-    let t: i32 = buffer.trim().parse().unwrap();
+    let t: i32 = read_one(&mut stdin);
     writeln!(stdout, "{}", t).unwrap();
+}
+
+fn read_one<R, T>(r: &mut R) -> T
+where
+    R: BufRead,
+    T: FromStr,
+    <T as FromStr>::Err: Debug,
+{
+    read_line(r, "\n").remove(0)
+}
+
+fn read_line<R, T>(r: &mut R, sep: &str) -> Vec<T>
+where
+    R: BufRead,
+    T: FromStr,
+    <T as FromStr>::Err: Debug,
+{
+    let mut buf = String::new();
+    r.read_line(&mut buf).unwrap();
+    buf.trim().split(sep).map(|x| x.parse().unwrap()).collect()
 }
